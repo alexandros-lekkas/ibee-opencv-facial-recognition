@@ -93,7 +93,7 @@ def separate(faces, labels, ratio):
         if labels[index] not in faceDictionary:
             faceDictionary[labels[index]] = []
         faceDictionary[labels[index]].append(faces[index]) # Add face to dictionary
-        print("[+] Added face " + str(index) + " to dictionary with label " + str(labels[index])")
+        print("[+] Added face " + str(index) + " to dictionary with label " + str(labels[index]))
     
     print("[+] Finalised face dictionary")
     print("")
