@@ -31,7 +31,7 @@ Database
 
 # Load and separate the database
 faces, labels = database.load("database/database")
-trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.8)
+trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.5)
 
 # Print title
 print("""
@@ -42,7 +42,7 @@ LBPH
 
 # Train and test LBPH model
 LBPHModel = LBPH.train(trainingFaces, trainingLabels)
-#LBPH.test(LBPHModel, testingDictionary)
+LBPH.test(LBPHModel, testingFaces, testingLabels)
 
 
 

@@ -162,7 +162,6 @@ def separate(faces, labels, ratio):
             print("[+] Added face to testing data with label " + str(label))
 
     print("[>] Re-arraying complete")
-    print("")
 
     return trainingFaces, trainingLabels, testingFaces, testingLabels
 

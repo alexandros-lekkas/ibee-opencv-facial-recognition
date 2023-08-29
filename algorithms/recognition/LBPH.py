@@ -47,34 +47,37 @@ def train(faces, labels):
 # Testing
 # ===============
 
+# Predict
+def predict(face, label, model):
+    face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY) # Convert face to grayscale
+
+    predictedLabel = model.predict(face) # Predict the label of the image
+    if predictedLabel[0] == label: # If the predicted label is the same as the actual label
+        result = "CORRECT"
+        resultBoolean = True
+    else:
+        result = "INCORRECT"
+        resultBoolean = False
+    
+    print("[>] Predicted label: " + str(predictedLabel[0]) + " - " + str(predictedLabel[1]) + " Confidence - [" + result + "]")
+    return resultBoolean
+
 # Test LBPH model
-def test(model, testingDictionary):
+def test(model, testingFaces, testingLabels):
 
-    correctIdentifications, missedIdentifications, falseIdentifcations = 0, 0, 0 # Initialize the scores
-
-    # Loop through testing data
-    for person in testingDictionary:
-        standardImage = cv2.imread(person + "/Standard_normalized.jpg")
-        faceVector = np.asarray([standardImage])
-
-        # Convert person to a NumPy array
-        personVector = np.asarray([person])
-
-        # Make a prediction
-        predictedPerson = model.predict(faceVector)
-
-        # Check if the prediction is correct
-        if predictedPerson == person:
-            correctIdentifications += 1
-        elif predictedPerson is None:
-            missedIdentifications += 1
+    correct = 0
+    incorrect = 0
+    for face in testingFaces:
+        result = predict(face, testingLabels[testingFaces.index(face)], model)
+        if result == True:
+            correct += 1
         else:
-            falseIdentifcations += 1
-        
-    # Calculate the accuracy
-    accuracy = (correctIdentifications / len(testingDictionary)) * 100
+            incorrect += 1
 
-    print(accuracy)
+    print("[>] Accuracy: " + len(correct) + "/" + len(testingFaces))
+
+
+
 
 # ===============
 # Main
