@@ -22,7 +22,7 @@ import LBPH
 # Main
 # ===============
 
-# Print title
+# Print "Database" title
 print("""
 ===============
 Database
@@ -33,7 +33,7 @@ Database
 faces, labels = database.load("database/database")
 trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.5)
 
-# Print title
+# Print "LBPH" title
 print("""
 ===============
 LBPH

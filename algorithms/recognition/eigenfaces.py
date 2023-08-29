@@ -1,29 +1,90 @@
-def recognizeFace(lbphModel, faceVector):
+#  ______ _                   __                    
+# |  ____(_)                 / _|                   
+# | |__   _  __ _  ___ _ __ | |_ __ _  ___ ___  ___ 
+# |  __| | |/ _` |/ _ \ '_ \|  _/ _` |/ __/ _ \/ __|
+# | |____| | (_| |  __/ | | | || (_| | (_|  __/\__ \
+# |______|_|\__, |\___|_| |_|_| \__,_|\___\___||___/
+#            __/ |                                  
+#           |___/                                   
 
-    # Calculate the distances to all of the people in the training dataset
-    distances = []
-    for person in lbphModel.get_labels():
-        distance = np.linalg.norm(faceVector - lbphModel.predict(faceVector))
-        distances.append(distance)
+# ===============
+# Imports
+# ===============
 
-    # Find the person with the smallest distance
-    closestPerson = distances.index(min(distances))
+# Libraries
+import cv2
+import cv2.face
+import numpy as np
+from sklearn.decomposition import PCA
 
-    # Return the name of the person
-    return lbphModel.get_labels()[closestPerson]
+# ===============
+# Training
+# ===============
 
-# Train Eigenfaces Model
-def trainEigenfacesModel(faces):
+# Train Eigenfaces model
+def train(faces, labels):
+
+    print("[/] Starting model training...")
+    print("")
+
+    grayFaces = [] # Initialize list to store grayscale faces
+    print("[/] CV2 re-grayscaling " + str(len(faces)) + " faces...")
+    for face in faces:
+        grayFace = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY) # Convert face to grayscale
+        grayFaces.append(grayFace) # Add grayscale face to list
+        print("[+] Grayscaling face " + str(len(grayFaces)) + " of " + str(len(faces)))
+    print("")
     
-    faces = np.array(faces) # Convert faces to array
+    pca = PCA(n_components=100) # Create PCA model with 100 components
+    print("[+] PCA model created")
+
+    print("[>] Training PCA model on " + str(len(grayFaces)) + " faces...")
+    pca.fit(grayFaces) # Train PCA model
+
+    print("[>] Model finished training")
+    print("")
+
+    return pca
+
+# ===============
+# Testing
+# ===============
+
+# Predict
+def predict(face, label, pca):
+    face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY) # Convert face to grayscale
+
+    projectedFace = pca.transform(face.reshape(1, -1)) # Project the face onto the PCA subspace
+
+    predictedLabel = pca.inverse_transform(projectedFace).argmax() # Predict the label of the image
+    if predictedLabel == label: # If the predicted label is the same as the actual label
+        result = "CORRECT"
+        resultBoolean = True
+    else:
+        result = "INCORRECT"
+        resultBoolean = False
     
-    covarianceMatrix = np.cov(faces.T) # Calculate covariance matrix
-    eigenvalues, eigenvectors = np.linalg.eig(covarianceMatrix) # Calculate eigenvalues and eigenvectors
+    print("[>] Predicted label: " + str(predictedLabel) + " Confidence - [" + result + "]")
+    return resultBoolean
 
-    sortedEigenvalues = eigenvalues.orgsort()[::-1] # Sort eigenvalues in descending order
+# Test Eigenfaces model
+def test(model, testingFaces, testingLabels):
 
-    numberOfEigenvectors = 100 # Number of eigenvectors to use
-    eigenvectors = eigenvectors[:, sortedEigenvalues[:numberOfEigenvectors]] # Get the first numberOfEigenvectors eigenvectors
+    # Loop through testing faces and predict
+    correct = 0
+    for index, face in enumerate(testingFaces):
+        result = predict(face, testingLabels[index], model)
+        if result == True:
+            correct += 1
 
-    np.save("eigenfacesModel.npy")
-    return eigenvectors
+    # Print results
+    print("[>] Accuracy: " + str(correct) + "/" + str(len(testingFaces)))
+
+# ===============
+# Main
+# ===============
+
+# Main function
+if __name__ == "__main__":
+    print("This file is not meant to be run directly.")
+    print("Please run main.py instead.")

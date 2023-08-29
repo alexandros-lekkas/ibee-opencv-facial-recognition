@@ -1,0 +1,2 @@
+# this file is going to contain code that tests both algorithms and run these tests repeatedly to get an average accuracy
+# it will create a folder every time it runs and store the results in there in records folder
