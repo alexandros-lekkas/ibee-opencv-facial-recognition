@@ -16,7 +16,10 @@ import sys
 sys.path.append('database')
 import database
 sys.path.append('algorithms/recognition')
+import eigenfaces
 import LBPH
+
+
 
 # ===============
 # Main
@@ -33,6 +36,17 @@ Database
 faces, labels = database.load("database/database")
 trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.5)
 
+# Print "Eigenfaces" title
+print("""
+===============
+Eigenfaces
+===============
+""")
+
+# Train and test Eigenfaces model
+eigenfacesModel = eigenfaces.train(trainingFaces, trainingLabels)
+eigenfaces.test(eigenfacesModel, testingFaces, testingLabels)
+
 # Print "LBPH" title
 print("""
 ===============
@@ -43,6 +57,3 @@ LBPH
 # Train and test LBPH model
 LBPHModel = LBPH.train(trainingFaces, trainingLabels)
 LBPH.test(LBPHModel, testingFaces, testingLabels)
-
-
-
