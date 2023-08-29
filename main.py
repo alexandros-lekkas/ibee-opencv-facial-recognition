@@ -19,8 +19,6 @@ sys.path.append('algorithms/recognition')
 import eigenfaces
 import LBPH
 
-
-
 # ===============
 # Main
 # ===============
