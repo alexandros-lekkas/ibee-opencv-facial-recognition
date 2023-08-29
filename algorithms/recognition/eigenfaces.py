@@ -46,20 +46,29 @@ def predict(face, label, model):
         resultBoolean = False
     
     print("[>] Predicted label: " + str(predictedLabel[0]) + " - " + str(predictedLabel[1]) + " Confidence - [" + result + "]")
-    return resultBoolean
+    return resultBoolean, predictedLabel[0], predictedLabel[1]
 
 # Test Eigenfaces model
 def test(model, testingFaces, testingLabels):
+    
+    resultArray = []
+    resultArray.append("")
 
     # Loop through testing faces and predict
     correct = 0
     for index, face in enumerate(testingFaces):
-        result = predict(face, testingLabels[index], model)
+        result, label, confidence = predict(face, testingLabels[index], model)
         if result == True:
             correct += 1
+        resultArray.append(label)
+        resultArray.append(confidence)
 
     # Print results
     print("[>] Accuracy: " + str(correct) + "/" + str(len(testingFaces)))
+    averageConfidence = sum(resultArray[2::2]) / len(resultArray[2::2])
+    resultArray.append(averageConfidence)
+    resultArray.append(correct)
+    return correct, resultArray
 
 # ===============
 # Main
