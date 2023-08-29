@@ -13,7 +13,6 @@
 import cv2
 import cv2.face
 import numpy as np
-import pathlib
 
 # ===============
 # Training
@@ -65,19 +64,15 @@ def predict(face, label, model):
 # Test LBPH model
 def test(model, testingFaces, testingLabels):
 
+    # Loop through testing faces and predict
     correct = 0
-    incorrect = 0
-    for face in testingFaces:
-        result = predict(face, testingLabels[testingFaces.index(face)], model)
+    for index, face in enumerate(testingFaces):
+        result = predict(face, testingLabels[index], model)
         if result == True:
             correct += 1
-        else:
-            incorrect += 1
 
-    print("[>] Accuracy: " + len(correct) + "/" + len(testingFaces))
-
-
-
+    # Print results
+    print("[>] Accuracy: " + str(correct) + "/" + str(len(testingFaces)))
 
 # ===============
 # Main
