@@ -1,0 +1,8 @@
+# Ignore the venv folder
+venv/
+
+# Ignore the vscode folder
+.vscode/
+
+# Ignore the database/results folder
+database/results/
