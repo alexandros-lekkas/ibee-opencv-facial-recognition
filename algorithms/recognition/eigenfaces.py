@@ -13,7 +13,6 @@
 
 # Libraries
 import cv2
-import cv2.face
 import numpy as np
 
 # ===============
