@@ -28,6 +28,7 @@ import LBPH
 # Functions
 # ===============
 
+# Main testing function
 def test(repeats, trainingTestingRatio):
 
     # ===============
@@ -116,3 +117,51 @@ def test(repeats, trainingTestingRatio):
         writer.writerows(LBPHResults)
         writer.writerow(LBPHTotalAccuracyRow)
 
+        # Create the "database" file in the results folder
+    databasePath = os.path.join(resultFolderPath, "database")
+    with open(databasePath, 'w') as csvFile:
+
+        writer = csv.writer(csvFile) # Create a CSV writer object
+
+        # Write the training faces
+        writer.writerow(trainingFaces)
+
+        # Write the training labels
+        writer.writerow(trainingLabels)
+
+        # Write the testing faces
+        writer.writerow(testingFaces)
+
+        # Write the testing labels
+        writer.writerow(testingLabels)
+
+# Read database from file (to be able to test same DB on both platforms)
+def readTestingDatabase(databasePath):
+
+    # Open the "database" file
+    with open(databasePath, 'r') as csvFile:
+
+        # Create a CSV reader object
+        reader = csv.reader(csvFile)
+
+        # Read the training faces
+        trainingFaces = []
+        for row in reader:
+            trainingFaces.append(row[0])
+
+        # Read the training labels
+        trainingLabels = []
+        for row in reader:
+            trainingLabels.append(row[1])
+
+        # Read the testing faces
+        testingFaces = []
+        for row in reader:
+            testingFaces.append(row[0])
+
+        # Read the testing labels
+        testingLabels = []
+        for row in reader:
+            testingLabels.append(row[1])
+
+    return trainingFaces, trainingLabels, testingFaces, testingLabels

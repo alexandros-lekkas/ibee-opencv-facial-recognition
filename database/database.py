@@ -118,8 +118,8 @@ def separate(faces, labels, ratio):
             testingFaceDictionary[label] = []
             print("[+] Created testing dictionary for label " + str(label))
 
+        random.shuffle(faceDictionary[label]) # Shuffle faces
         faces = faceDictionary[label] # Get faces with label
-        faceDictionary[label] = random.shuffle(faces) # Shuffle faces
         numberOfTrainingFaces = math.ceil(len(faces) * ratio) # Get number of training faces
         print("[/] Separating " + str(len(faces)) + " faces into " + str(numberOfTrainingFaces) + " training faces and " + str(len(faces) - numberOfTrainingFaces) + " testing faces.")
 
