@@ -14,7 +14,6 @@ import sys
 
 # Modules
 sys.path.append('database')
-import database
 import testing
 
 # ===============
