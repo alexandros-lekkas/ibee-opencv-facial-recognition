@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
         "./algorithms/normalization",
-        "./algorithms/recognition"
+        "./algorithms/recognition",
+        "./database"
     ]
 }

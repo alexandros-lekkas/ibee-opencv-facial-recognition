@@ -70,11 +70,11 @@ def test(model, testingFaces, testingLabels):
     # Loop through testing faces and predict
     correct = 0
     for index, face in enumerate(testingFaces):
-        result, label = predict(face, testingLabels[index], model)
+        result, label, confidence = predict(face, testingLabels[index], model)
         if result == True:
             correct += 1
         resultArray.append(label)
-        resultArray.append(result)
+        resultArray.append(confidence)
 
     # Print results
     print("[>] Accuracy: " + str(correct) + "/" + str(len(testingFaces)))

@@ -1,0 +1,7 @@
+,Label: 1,Confidence,Label: 1,Confidence,Label: 2,Confidence
+Eigenfaces
+,-1,1.7976931348623157e+308,-1,1.7976931348623157e+308,-1,1.7976931348623157e+308,inf,0
+Total accuracy %:,0.0,Total accuracy:,0/3
+LBPH
+,1,79.36736566741689,1,69.41791325391188,2,104.28819049977092,84.35782314036656,3
+Total accuracy %:,100.0,Total accuracy:,3/3

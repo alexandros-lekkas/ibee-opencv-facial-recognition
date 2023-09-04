@@ -21,17 +21,4 @@ import testing
 # Main
 # ===============
 
-# Print "Database" title
-print("""
-===============
-Database
-===============   
-""")
-
-# Load and separate the database
-faces, labels = database.load("database/database")
-trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.5)
-
-testing.test(trainingFaces, trainingLabels, testingFaces, testingLabels)
-
-import csv
+testing.test(1)
