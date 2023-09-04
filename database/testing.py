@@ -28,7 +28,7 @@ import LBPH
 # Functions
 # ===============
 
-def test(repeats):
+def test(repeats, trainingTestingRatio):
 
     # ===============
     # Folder set-up
@@ -46,7 +46,7 @@ def test(repeats):
 
     # Load database for this run
     faces, labels = database.load("database/database")
-    trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, 0.5)
+    trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, trainingTestingRatio)
 
     # ===============
     # Training

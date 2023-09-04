@@ -60,9 +60,10 @@ def load(databasePath):
                 
                 print("[/] Normalizing: " + imagePath)
                 image = normalizer.normalize(image) # Normalize image
-                showPreview(image) # Show preview of normalized image
+                cv2.imwrite(imagePath[:-4] + "_normalized.jpg", image) # Save normalized image
+                os.remove(imagePath) # Remove original image
 
-                [print("[>] Skipping: " + imagePath)]
+            else: print("[>] Skipping: " + imagePath)
 
             faces.append(image)
             labels.append(label)
@@ -118,7 +119,7 @@ def separate(faces, labels, ratio):
             print("[+] Created testing dictionary for label " + str(label))
 
         faces = faceDictionary[label] # Get faces with label
-        random.shuffle(faces) # Shuffle faces
+        faceDictionary[label] = random.shuffle(faces) # Shuffle faces
         numberOfTrainingFaces = math.ceil(len(faces) * ratio) # Get number of training faces
         print("[/] Separating " + str(len(faces)) + " faces into " + str(numberOfTrainingFaces) + " training faces and " + str(len(faces) - numberOfTrainingFaces) + " testing faces.")
 

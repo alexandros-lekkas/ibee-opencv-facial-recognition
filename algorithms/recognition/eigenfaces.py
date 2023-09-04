@@ -23,8 +23,24 @@ import numpy as np
 # Train Eigenfaces model
 def train(faces, labels):
 
+    print("[/] Starting model training...")
+    print("")
+
+    grayFaces = [] # Initialize list to store grayscale faces
+    print("[/] CV2 re-grayscaling " + str(len(faces)) + " faces...")
+    for face in faces:
+        grayFace = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY) # Convert face to grayscale
+        grayFaces.append(grayFace) # Add grayscale face to list
+        print("[+] Grayscaling face " + str(len(grayFaces)) + " of " + str(len(faces)))
+    print("")
     model = cv2.face.EigenFaceRecognizer_create() # Create Eigenfaces model
-    model.train(faces, np.array(labels)) # Train Eigenfaces model
+    print("[+] Model created")
+
+    print("[>] Training model on " + str(len(grayFaces)) + " faces...")
+    model.train(grayFaces, np.array(labels)) # Train Eigenfaces model
+
+    print("[>] Model finished training")
+    print("")
 
     return model
 
