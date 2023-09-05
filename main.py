@@ -20,4 +20,4 @@ import testing
 # Main
 # ===============
 
-testing.test(1, 0.5)
+testing.test(1, 0.2)

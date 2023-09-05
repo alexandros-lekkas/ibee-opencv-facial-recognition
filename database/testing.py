@@ -81,7 +81,7 @@ def test(repeats, trainingTestingRatio):
     LBPHResults = []
     LBPHHeader = ["LBPH"]
     correctTotal = 0
-    print("Testing LBPH (", str(repeats), "Repeats)")
+    print("Testing LBPH (" + str(repeats), "Repeats)")
     for index in range (0, repeats):
         print("Repeat", str(index + 1) + "/" + str(repeats))
         totalCorrect, resultArray = LBPH.test(LBPHModel, testingFaces, testingLabels)
@@ -118,7 +118,7 @@ def test(repeats, trainingTestingRatio):
         writer.writerow(LBPHTotalAccuracyRow)
 
         # Create the "database" file in the results folder
-    databasePath = os.path.join(resultFolderPath, "database")
+    databasePath = os.path.join(resultFolderPath, "database.csv")
     with open(databasePath, 'w') as csvFile:
 
         writer = csv.writer(csvFile) # Create a CSV writer object
