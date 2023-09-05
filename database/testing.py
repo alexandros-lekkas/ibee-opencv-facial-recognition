@@ -67,12 +67,12 @@ def test(repeats, trainingTestingRatio):
         eigenfacesModel = eigenfaces.train(trainingFaces, trainingLabels)
         
         print("Repeat", str(index + 1) + "/" + str(repeats))
-        totalCorrect, resultArray = eigenfaces.test(eigenfacesModel, testingFaces, testingLabels)
+        totalCorrect, resultArray, totalTimeTaken = eigenfaces.test(eigenfacesModel, testingFaces, testingLabels)
         eigenfacesResults.append(resultArray)
         correctTotal = correctTotal + totalCorrect
         averageConfidence = sum(resultArray[2::2]) / len(resultArray[2::2])
     eigenfacesTotalAccuracy = correctTotal / (len(testingFaces) * repeats) * 100
-    eigenfacesAccuracyRow = ["Total accuracy %:", str(eigenfacesTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence)]
+    eigenfacesAccuracyRow = ["Total accuracy %:", str(eigenfacesTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence), "Total time taken:", str(totalTimeTaken), "Average time taken:", str(totalTimeTaken / (len(testingFaces) * repeats) * 100)]
     print("")
 
     # Test LBPH
@@ -92,12 +92,12 @@ def test(repeats, trainingTestingRatio):
         LBPHModel = LBPH.train(trainingFaces, trainingLabels)
 
         print("Repeat", str(index + 1) + "/" + str(repeats))
-        totalCorrect, resultArray = LBPH.test(LBPHModel, testingFaces, testingLabels)
+        totalCorrect, resultArray, totalTimeTaken = LBPH.test(LBPHModel, testingFaces, testingLabels)
         LBPHResults.append(resultArray)
         correctTotal = correctTotal + totalCorrect
         averageConfidence = sum(resultArray[2::2]) / len(resultArray[2::2])
     LBPHTotalAccuracy = correctTotal / (len(testingFaces) * repeats) * 100
-    LBPHTotalAccuracyRow = ["Total accuracy %:", str(LBPHTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence)]
+    LBPHTotalAccuracyRow = ["Total accuracy %:", str(LBPHTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence), "Total time taken:", str(totalTimeTaken), "Average time taken:", str(totalTimeTaken / (len(testingFaces) * repeats) * 100)]
     print("")
 
     # ===============
@@ -113,7 +113,7 @@ def test(repeats, trainingTestingRatio):
         headerArray.append("Confidence")
     
     # Create and open results file
-    with open (resultFolderPath + "/result.csv", 'w') as csvFile:
+    with open (resultFolderPath + "/result_" + str(trainingTestingRatio * 100) + ".csv", 'w') as csvFile:
 
         writer = csv.writer(csvFile) # Create a CSV writer object
 
