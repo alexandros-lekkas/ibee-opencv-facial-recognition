@@ -38,26 +38,8 @@ def test(repeats, trainingTestingRatio):
     # Create folder for results
     currentDirectory = os.path.join(os.getcwd(), "database/results")
     resultFolder = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    resultFolderPath = os.path.join(currentDirectory, resultFolder + "_" + platform.system())
+    resultFolderPath = os.path.join(currentDirectory, resultFolder + "_" + platform.system() + "_" + str(trainingTestingRatio))
     os.mkdir(resultFolderPath)
-
-    # ===============
-    # Database
-    # ===============
-
-    # Load database for this run
-    faces, labels = database.load("database/database")
-    trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, trainingTestingRatio)
-
-    # ===============
-    # Training
-    # ===============
-
-    # Train and save models to folder
-    eigenfacesModel = eigenfaces.train(trainingFaces, trainingLabels)
-    eigenfacesModel.save(os.path.join(resultFolderPath, "eigenfacesModel.yml"))
-    LBPHModel = LBPH.train(trainingFaces, trainingLabels)
-    LBPHModel.save(os.path.join(resultFolderPath, "LBPHModel.yml"))
 
     # ===============
     # Testing
@@ -69,12 +51,28 @@ def test(repeats, trainingTestingRatio):
     correctTotal = 0
     print("Testing Eigenfaces (" + str(repeats), "Repeats)")
     for index in range (0, repeats):
+        # ===============
+        # Database
+        # ===============
+
+        # Load database for this run
+        faces, labels = database.load("database/database")
+        trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, trainingTestingRatio)
+
+        # ===============
+        # Training
+        # ===============
+
+        # Train and save models to folder
+        eigenfacesModel = eigenfaces.train(trainingFaces, trainingLabels)
+        
         print("Repeat", str(index + 1) + "/" + str(repeats))
         totalCorrect, resultArray = eigenfaces.test(eigenfacesModel, testingFaces, testingLabels)
         eigenfacesResults.append(resultArray)
         correctTotal = correctTotal + totalCorrect
-    eigenfacesTotalAccuracy = (correctTotal / len(testingFaces)) * 100
-    eigenfacesAccuracyRow = ["Total accuracy %:", str(eigenfacesTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces))]
+        averageConfidence = sum(resultArray[2::2]) / len(resultArray[2::2])
+    eigenfacesTotalAccuracy = correctTotal / (len(testingFaces) * repeats) * 100
+    eigenfacesAccuracyRow = ["Total accuracy %:", str(eigenfacesTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence)]
     print("")
 
     # Test LBPH
@@ -83,12 +81,23 @@ def test(repeats, trainingTestingRatio):
     correctTotal = 0
     print("Testing LBPH (" + str(repeats), "Repeats)")
     for index in range (0, repeats):
+        # ===============
+        # Database
+        # ===============
+
+        # Load database for this run
+        faces, labels = database.load("database/database")
+        trainingFaces, trainingLabels, testingFaces, testingLabels = database.separate(faces, labels, trainingTestingRatio)
+
+        LBPHModel = LBPH.train(trainingFaces, trainingLabels)
+
         print("Repeat", str(index + 1) + "/" + str(repeats))
         totalCorrect, resultArray = LBPH.test(LBPHModel, testingFaces, testingLabels)
         LBPHResults.append(resultArray)
         correctTotal = correctTotal + totalCorrect
-    LBPHTotalAccuracy = (correctTotal / len(testingFaces)) * 100
-    LBPHTotalAccuracyRow = ["Total accuracy %:", str(LBPHTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces))]
+        averageConfidence = sum(resultArray[2::2]) / len(resultArray[2::2])
+    LBPHTotalAccuracy = correctTotal / (len(testingFaces) * repeats) * 100
+    LBPHTotalAccuracyRow = ["Total accuracy %:", str(LBPHTotalAccuracy), "Total accuracy:", str(correctTotal) + "/" + str(len(testingFaces) * repeats), "Average confidence:", str(averageConfidence)]
     print("")
 
     # ===============
