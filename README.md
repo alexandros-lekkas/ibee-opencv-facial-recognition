@@ -3,11 +3,11 @@
 
 IB Extended Essay on OpenCV Facial Recognition.
 
-# About 📑
+## About 📑
 
 Legacy facial recognition using the OpenCV library. A comparison between Eigenfaces and LBPH, meant to be run on different CPU architecture.
 
-# Python 🐍
+## Python 🐍
 
 Program has documentation in Python for Eigenfaces and LBPH recognition. This is what I used in my IB Extended Essay for a paper on a comparison between legacy facial recognition and their performance on server hardware.
 
@@ -25,7 +25,7 @@ This is the IDE I used when working with the code so it is what I recommend to a
   pip install numpy
 ```
 
-# Database Disclaimer ⚠️
+## Database Disclaimer ⚠️
 
 The database will be composed/or is composed of celebrities and/or consenting adults. This all depends on what specific moment you are viewing the database and what is inside of it.
 
@@ -33,13 +33,13 @@ If they are consenting adults they have agreed to the publication and use of the
 
 If there are any legal complains with images in this database please contact me.
 
-# Acknowledgements 📃
+## Acknowledgements 📃
 
 Code was inspired by this repository: https://github.com/serengil/deepface
 
 Make sure to give credit where credit is due, this is just modified code and it may be easier to use the other.
 
-## 👥 Authors
+### 👥 Authors
 
 - [@lekkasgit](https://www.github.com/Lekkasgit)
 
